@@ -1,0 +1,19 @@
+{
+  "name": "firestone",
+  "version": "0.1.0",
+  "description": "work in progress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martianfield/firestone.git"
+  },
+  "author": "Martin Imfeld <martin.imfeld@gmail.com> (http://martianfield.github.io/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martianfield/firestone/issues"
+  },
+  "homepage": "https://github.com/martianfield/firestone#readme"
+}
