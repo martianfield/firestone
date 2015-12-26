@@ -1,9 +1,14 @@
 'use strict'
+const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(config, routes) {
 	const router = require('express').Router();
+	// set up middleware
+	router.use(bodyParser.urlencoded({extended:false}));
+	router.use(bodyParser.json());
+
 	let err = null;
 	// check parameter
 	if(routes === undefined ) {
@@ -36,7 +41,7 @@ function createRoute(router, definition, config) {
 		.get((req, res) => {
 			MongoClient.connect(config.mongo.uri)
 				.then((db) => {
-					return db.collection(definition.coll).find({});
+					return db.collection(definition.collection).find({});
 				})
 				.then((cursor) => {
 					return cursor.toArray();
@@ -48,6 +53,23 @@ function createRoute(router, definition, config) {
 					res.json(err);
 				})
 		})
+		// POST (insert)
+		.post((req, res) => {
+			let doc = definition.map(req.body);
+			
+			MongoClient.connect(config.mongo.uri)
+				.then((db) => {
+					return db.collection(definition.collection).insertOne(doc);
+				})
+				.then((result) => {
+					doc._id = result.insertedId;
+					res.status(200).json(doc)
+				})
+				.catch((err) => {
+					res.json(err);
+				})
+		})
+
 	// path/:id
 	router.route(definition.path + '/:id')
 		// GET
@@ -55,17 +77,17 @@ function createRoute(router, definition, config) {
 			let id = req.params.id;
 			MongoClient.connect(config.mongo.uri)
 				.then((db) => {
-					console.log("id:" + id);
-					//return db.collection(definition.coll).findOne({_id: ObjectId(id)});
-					return db.collection(definition.coll).findOne({_id:ObjectId.createFromHexString(id)})
+					return db.collection(definition.collection).findOne({_id:ObjectId.createFromHexString(id)})
 				})
 				.then((result) => {
-					console.dir(result);
 					res.json(result);
 				})
 				.catch((err) => {
-					console.log(err);
 					res.json(err);
 				})
 		})
+		// TODO: DELETE
+
+		// TODO: PUT (update)
+
 }

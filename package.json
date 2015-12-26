@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/martianfield/firestone#readme",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "kerberos": "0.0.17",
     "mongodb": "^2.1.2"
