@@ -4,6 +4,7 @@
   "description": "work in progress",
   "main": "index.js",
   "scripts": {
+    "example": "nodemon examples/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -11,9 +12,17 @@
     "url": "git+https://github.com/martianfield/firestone.git"
   },
   "author": "Martin Imfeld <martin.imfeld@gmail.com> (http://martianfield.github.io/)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/martianfield/firestone/issues"
   },
-  "homepage": "https://github.com/martianfield/firestone#readme"
+  "homepage": "https://github.com/martianfield/firestone#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "kerberos": "0.0.17",
+    "mongodb": "^2.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  }
 }
