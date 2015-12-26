@@ -55,18 +55,20 @@ function createRoute(router, definition, config) {
 		})
 		// POST (insert)
 		.post((req, res) => {
-			let doc = definition.map(req.body);
-			
-			MongoClient.connect(config.mongo.uri)
-				.then((db) => {
+			var promiseConnect = MongoClient.connect(config.mongo.uri);
+			var promiseMap = definition.map(req.body);
+			Promise.all([promiseConnect, promiseMap])
+				.then((values) => {
+					let db = values[0];
+					let doc = values[1];
 					return db.collection(definition.collection).insertOne(doc);
 				})
 				.then((result) => {
 					doc._id = result.insertedId;
-					res.status(200).json(doc)
+					res.status(201).json(doc)
 				})
 				.catch((err) => {
-					res.json(err);
+					res.status(422).json({error:err.message});
 				})
 		})
 

@@ -9,16 +9,24 @@ const config = {
 		uri: 'mongodb://localhost:27017/firestone_example'
 	}
 };
+
 const routes = [
 	{
 		path:'/toys', 
 		collection: 'toys', 
 		map: (body) => {
-			let doc = {
-				name: body.name,
-				owner: body.owner
-			}
-		return doc;
+			return new Promise((fulfill, reject) => {
+				if(body.name === undefined) {
+					return reject(new Error("missing parameter name"));
+				} 
+				else {
+					let doc = {
+						name: body.name,
+						owner: body.owner
+					}
+					return fulfill(doc);
+				}
+		  })
 		}
 	}
 ];
