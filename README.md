@@ -1,2 +1,4 @@
-# firestone
-Work in progress
+# fiRESTone
+
+Creating simple REST APIs with ease.
+

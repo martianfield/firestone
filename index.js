@@ -88,8 +88,20 @@ function createRoute(router, definition, config) {
 					res.json(err);
 				})
 		})
-		// TODO: DELETE
-
+		// DELETE
+		.delete((req, res) => {
+			let id = req.params.id;
+			MongoClient.connect(config.mongo.uri)
+				.then((db) => {
+					return db.collection(definition.collection).deleteOne({_id:ObjectId.createFromHexString(id)})
+				})
+				.then((result) => {
+					res.json(result);
+				})
+				.catch((err) => {
+					res.json(err);
+				})
+		})
 		// TODO: PUT (update)
 
 }
