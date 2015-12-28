@@ -1,6 +1,7 @@
 'use strict';
 
-const firestone = require('./../index.js');
+const firestoneRouter = require('./../index.js').router;
+const firestoneMapMaker = require('./../index.js').mapMaker;
 
 const app = require('express')();
 
@@ -28,10 +29,20 @@ const routes = [
 				}
 		  })
 		}
+	},
+	{
+		path:'/cats',
+		collection: 'cats',
+		map: firestoneMapMaker({name:String, sold:Boolean}, {owner:String, age:Number})
+	},
+	{
+		path:'/api/dogs',
+		collection: "dogs",
+		map: firestoneMapMaker({name:String, age:Number}, {musicalTaste:String})
 	}
 ];
 
-app.use(firestone(config, routes));
+app.use(firestoneRouter(config, routes));
 
 
 const port = process.env.PORT || 3000;

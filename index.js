@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 
-module.exports = function(config, routes) {
+module.exports.router = function(config, routes) {
 	const router = require('express').Router();
 	// set up middleware
 	router.use(bodyParser.urlencoded({extended:false}));
@@ -68,7 +68,7 @@ function createRoute(router, definition, config) {
 					//doc._id = result.insertedId;
 					let insertedId = result.insertedId;
 					res.location(`${definition.path}/${insertedId}`);
-					res.status(201).json({message:"created", id:insertedId});
+					res.status(201).json({message:"resource created", id:insertedId});
 				})
 				.catch((err) => {
 					console.log("error:" + err.message);
@@ -126,4 +126,44 @@ function createRoute(router, definition, config) {
 				})
 		})
 
+}
+
+
+module.exports.mapMaker = function(mandatory, optional) {
+	let map = (body) => {
+			return new Promise((fulfill, reject) => {
+				// check if mandatory fields are provided
+				let missingFields = [];
+				for (var prop in mandatory) {
+				  if(mandatory.hasOwnProperty(prop)) {
+				    //console.log("obj." + prop + " = " + mandatory[prop]);
+				    if(body[prop] === undefined) {
+				    	console.log("missing field found: " + prop);
+				    	missingFields.push(prop);
+				    }
+				  } 
+				}
+				if(missingFields.length > 0) {
+					let missingParameters = missingFields.map((item) => `'${item}'`).join(', ');
+					return reject(new Error("missing parameter()s: " + missingParameters));
+				} 
+				else {
+					let doc = {};
+					for(var prop in mandatory) {
+						if(mandatory.hasOwnProperty(prop)) {
+							doc[prop] = body[prop];	
+						}
+					}
+					for(var prop in optional) {
+						if(optional.hasOwnProperty(prop)) {
+							if(doc[prop]) {
+								doc[prop] = body[prop];
+							}							
+						}
+					}
+					return fulfill(doc);
+				}
+		  })
+		}
+	return map;
 }
