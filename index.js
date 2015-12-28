@@ -61,13 +61,17 @@ function createRoute(router, definition, config) {
 				.then((values) => {
 					let db = values[0];
 					let doc = values[1];
+					console.log("doc:" + JSON.stringify(doc));
 					return db.collection(definition.collection).insertOne(doc);
 				})
 				.then((result) => {
-					doc._id = result.insertedId;
-					res.status(201).json(doc)
+					//doc._id = result.insertedId;
+					let insertedId = result.insertedId;
+					res.location(`${definition.path}/${insertedId}`);
+					res.status(201).json({message:"created", id:insertedId});
 				})
 				.catch((err) => {
+					console.log("error:" + err.message);
 					res.status(422).json({error:err.message});
 				})
 		})
@@ -102,6 +106,24 @@ function createRoute(router, definition, config) {
 					res.json(err);
 				})
 		})
-		// TODO: PUT (update)
+		// TODO: PUT 
+		// PATCH
+		.patch((req, res) => {
+			let id = req.params.id;
+			let promiseConnect = MongoClient.connect(config.mongo.uri);
+			let promiseMap = definition.map(req.body);
+			Promise.all([promiseConnect, promiseMap])
+				.then((values) => {
+					let db = values[0];
+					let doc = values[1];
+					return db.collection(definition.collection).updateOne({_id:ObjectId.createFromHexString(id)}, doc)
+				})
+				.then((result) => {
+					res.json(result);
+				})
+				.catch((err) => {
+					res.json(err);
+				})
+		})
 
 }
