@@ -9,13 +9,38 @@ We could spend hours discussing the choices I made, but then we would at best en
 
 ### GET
 
-TODO
+Successfully GETting a resource will result in
+
+- a `200` HTTP Status code
+- the resources(s) as JSON in the response body
+
+Trying to GET a resource (by id) that does not exist, results in
+
+- a `404` HTTP Status code
+- a response body containing information about the error(s) as JSON (see example)
+
+```JSON
+{
+	error: "resource could not be found"
+}
+```
+
+Malformed requests (e.g. requesting an id that is not a string of 12 bytes or 24 hex characters) result in
+
+- a `400` HTTP Status code
+- a response body containing information about the error(s) as JSON (see example)
+
+```JSON
+{
+	error: "Argument passed in must be a single String of 12 bytes or a string of 24 hex characters"
+}
+```
 
 ### POST
 
 Successfully POSTing a new resource will result in 
 
-- a `200` HTTP Status Code
+- a `201` HTTP Status Code
 - a link to the created resource in the HTTP Location Header
 - the created object as JSON in the response's body (including the `_id` it got from Mongo)
 
