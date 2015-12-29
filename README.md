@@ -1,5 +1,7 @@
 # fiRESTone
 
+**NOTE: EVERYTHING HERE IS IN ALPHA. THINGS ARE IN CONSTANT FLUX AND VERY MUCH INCOMPLETE.**
+
 Quickly create RESTful APIs using Node, Express, and Mongo.
 
 
