@@ -23,7 +23,13 @@ const routes = [
 		map: (body) => {
 			return new Promise((fulfill, reject) => {
 				if(body.name === undefined) {
-					return reject(new Error("missing parameter name"));
+					return reject(
+						{
+							errors:[
+								{field:"name", reason:"missing"}
+							]
+						}
+					);
 				} 
 				else {
 					let doc = {
