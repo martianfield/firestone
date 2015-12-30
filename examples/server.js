@@ -1,21 +1,12 @@
 'use strict';
+const firestone = require('./../index.js');
 
-const routeMaker = require('./../index.js').routeMaker;
-const mapMaker = require('./../index.js').mapMaker;
-
-const app = require('express')();
-
-const config = {
-	mongo: {
-		uri: 'mongodb://localhost:27017/firestone_example'
-	}
-};
-
+// define routes
 const routes = [
 	{
 		path: '/doctors',
 		collection: 'doctors',
-		map: mapMaker({actor:String, ordinal:String}, {fez:Boolean})
+		map: firestone.mapMaker({actor:String, ordinal:String}, {fez:Boolean})
 	},
 	{
 		path:'/toys', 
@@ -44,7 +35,7 @@ const routes = [
 	{
 		path: '/companions',
 		collection: 'companions',
-		map: mapMaker({name:String}, {scottish:Boolean}),
+		map: firestone.mapMaker({name:String}, {scottish:Boolean}),
 		middleware: {
 			POST: (req, res, next) => {
 				if(new Date().getSeconds() % 2) {
@@ -60,9 +51,15 @@ const routes = [
 	}
 ];
 
-app.use(routeMaker(config, routes));
+// configure firestone
+firestone.config('mongoUri', 'mongodb://localhost:27017/firestone_example');
+firestone.config('routes', routes);
 
+// create express app and use routes
+const app = require('express')();
+app.use(firestone.routeMaker());
 
+// serve the express app
 const port = process.env.PORT || 3000;
 app.listen(port);
 console.log(`serving at http://localhost:${port}`);
