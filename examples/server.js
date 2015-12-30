@@ -45,18 +45,16 @@ const routes = [
 		path: '/companions',
 		collection: 'companions',
 		map: mapMaker({name:String}, {scottish:Boolean}),
-		auth: {
-			POST: (request) => {
-				return new Promise((fulfill, reject) => {
-					if(new Date().getSeconds() % 2) {
-						// nothing to pass
-						return fulfill(true);
-					} 
-					else {
-						// pass a status and a message
-						return reject({status:403, message:"you are not authorized"});
-					}
-				})
+		middleware: {
+			POST: (req, res, next) => {
+				if(new Date().getSeconds() % 2) {
+					console.log("authorized");
+					next();
+				}
+				else {
+					console.log("not authorized");
+					res.status(403).json({error: "you are not authorized"});
+				}
 			}
 		}
 	}

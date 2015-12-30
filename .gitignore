@@ -6,3 +6,6 @@ node_modules
 
 # tinkering
 *.tinker.js
+
+# tarballs
+*.tgz
