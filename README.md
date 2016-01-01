@@ -2,6 +2,8 @@
 
 **NOTE: EVERYTHING HERE IS IN ALPHA. THINGS ARE IN CONSTANT FLUX AND VERY MUCH INCOMPLETE.**
 
+Note: Yes, I  am probably re-inventing the wheel here. There are other (better) solutions like FeathersJs ... have a look there.
+
 Quickly create RESTful APIs using Node, Express, and Mongo.
 
 
