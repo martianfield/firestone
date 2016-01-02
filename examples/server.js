@@ -35,7 +35,7 @@ const routes = [
 	{
 		path: '/companions',
 		collection: 'companions',
-		map: firestone.mapMaker({name:String}, {scottish:Boolean}),
+		map: firestone.mapMaker({name:String}, {scottish:Boolean, age:Number}),
 		middleware: {
 			POST: (req, res, next) => {
 				if(new Date().getSeconds() % 2) {
