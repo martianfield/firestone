@@ -39,11 +39,9 @@ const routes = [
 		middleware: {
 			POST: (req, res, next) => {
 				if(new Date().getSeconds() % 2) {
-					console.log("authorized");
 					next();
 				}
 				else {
-					console.log("not authorized");
 					res.status(403).json({error: "you are not authorized"});
 				}
 			}
