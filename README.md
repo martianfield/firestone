@@ -2,11 +2,9 @@
 
 A thin REST API prototyping framework using Express and MongoDB.
 
-**NOTE: EVERYTHING HERE IS IN ALPHA. THINGS ARE IN CONSTANT FLUX AND VERY MUCH INCOMPLETE.**
+# NOTE: EVERYTHING HERE IS IN ALPHA. THINGS ARE IN CONSTANT FLUX AND VERY MUCH INCOMPLETE
 
 Note: Yes, I  am probably re-inventing the wheel here. There are other (better) solutions like FeathersJs ... have a look there.
-
-Quickly create RESTful APIs using Node, Express, and Mongo.
 
 ## Quickstart
 
@@ -38,4 +36,20 @@ const port = process.env.PORT || 3000;
 app.listen(port);
 console.log(`serving at http://localhost:${port}`);
 ```
+
+## Filtering
+
+Filtering is done by providing a `GET` request with a `filter` query string parameter.
+
+A filter has the form `<name><operator><value>`.
+
+Supported operators are:
+
+- `==` : exact match
+- `<to be decided>`: contains (for strings)
+
+Or is achieved by listing filters using commas as the delimter.
+
+And is achieved by adding additional `filter` query parameters using the standard `&`. This results in an array of `filter` paramaters.
+
 

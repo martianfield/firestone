@@ -17,7 +17,7 @@ describe("Validators", () => {
 		});
 		it('invalid email addresses', () => {
 			// arrange
-			let items = ['ble#para.com','ann@ann@ann.ann', 'dodo@dodo', 'dum@dum.dum'];
+			let items = ['ble#para.com','ann@ann@ann.ann', 'dodo@dodo'];
 			// act / assert
 			items.forEach((item) => {
 				let validation = validateEmail(item);
